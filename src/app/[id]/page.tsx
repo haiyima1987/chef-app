@@ -10,7 +10,7 @@ interface InitialData {
 
 async function getPageData(id: number) {
   // 1. if we have many rows of data, consider pagination
-  // don't wait *
+  // await can be removed to make api calls faster
   const { data: dishes } = await apiHandler.getClient()
     .from('dishes')
     .select(`*, dish_ingredients!inner(*)`)
