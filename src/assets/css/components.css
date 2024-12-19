@@ -1,0 +1,17 @@
+@tailwind components;
+
+@layer components {
+    .dish-card {
+        @apply mr-4 px-4 py-4 border-2 rounded-lg font-semibold text-greyDark02 shadow-lg;
+        @apply cursor-pointer hover:bg-greyLight01 hover:text-blue;
+    }
+
+    .ingredient-card {
+        @apply mr-4 px-2 py-2 border-2 rounded-md font-semibold text-greyDark02 shadow-md;
+        @apply cursor-pointer hover:bg-greyLight01 hover:text-green;
+    }
+
+    .ingredient-card.selected {
+        @apply bg-greyLight01 text-green;
+    }
+}
