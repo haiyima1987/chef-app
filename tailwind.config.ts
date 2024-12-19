@@ -25,6 +25,9 @@ const config: Config = {
         greyLight03: '#F5F5F5',
         greyOpaque01: 'rgba(75, 85, 99, 0.6)'
       },
+      height: {
+        input: '44px'
+      },
     },
   },
   plugins: [],

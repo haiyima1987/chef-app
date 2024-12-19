@@ -25,8 +25,13 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <div className="pb-10 lg:ml-[15%] lg:max-w-[70%]">
-          <Image src={Header} alt="header" width="100%"/>
+        <div className="px-4 pb-10 lg:ml-[15%] lg:max-w-[70%]">
+          <Image
+            src={Header}
+            alt="header"
+            width={0}
+            height={0}
+            style={{ width: '100%', height: 'auto' }}/>
           <h1 className="py-4 text-3xl">Welcome to the portal!</h1>
           <hr className="mb-6"/>
           <div>

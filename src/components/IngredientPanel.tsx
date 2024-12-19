@@ -1,7 +1,9 @@
 'use client';
 
 import { Dish, DishIngredient, Ingredient } from '@/models';
-import { add, remove } from '@/app/[id]/actions';
+import { useState } from 'react';
+import UpdateForm from '@/components/UpdateForm';
+import AddForm from '@/components/AddForm';
 
 
 interface Props {
@@ -10,33 +12,43 @@ interface Props {
 }
 
 export default function IngredientPanel({ dish, ingredients }: Props) {
+  const selectedList = dish.dish_ingredients.map((di: DishIngredient) => di.ingredient_id);
+  const [newItem, setNewItem] = useState<Ingredient>();
+  const [updatedItem, setUpdatedItem] = useState<DishIngredient>();
+  const [isUpdate, setIsUpdate] = useState(false);
+
   // IMPROVE: add loading for all api calls
-  const handleRemove = async (id: number) => {
-    const dishIngredient: DishIngredient = dish.dish_ingredients.find((di: DishIngredient) => di.ingredient_id === id);
-    if (!dishIngredient) return;
-    await remove(dish.id, dishIngredient.id);
+  const handleSelect = (i: Ingredient) => {
+    if (selectedList.includes(i.id)) {
+      const dishIngredient = dish.dish_ingredients.find((di: DishIngredient) => di.ingredient_id === i.id);
+      if (!dishIngredient) return;
+      setUpdatedItem(dishIngredient);
+      setIsUpdate(true);
+    } else {
+      setNewItem(i);
+      setIsUpdate(false);
+    }
   };
 
   return (
-    <>
-      <h3 className="mb-4 font-semibold">Add or remove ingredient</h3>
-      <ul className="flex justify-start items-center">
+    <div className="relative">
+      <h3 className="mb-4 font-semibold">Overview of ingredients</h3>
+      <ul className="mb-6 flex justify-start items-center flex-wrap">
         {ingredients.map((i: Ingredient) => (
           <li key={i.id}>
-            {dish.dish_ingredients.map((di: DishIngredient) => di.ingredient_id).includes(i.id) ?
-              <button
-                onClick={() => handleRemove(i.id)}
-                className={'ingredient-card selected'}>
-                {i.name}
-              </button> :
-              <button
-                onClick={() => add(dish.id, i.id)}
-                className={'ingredient-card'}>
-                {i.name}
-              </button>}
+            <button
+              onClick={() => handleSelect(i)}
+              className={`mb-4 ingredient-card ${!selectedList.includes(i.id) || 'selected'}`}>
+              {i.name}
+            </button>
           </li>
         ))}
       </ul>
-    </>
+      {isUpdate ? <div>
+        {updatedItem && <UpdateForm dish={dish} updatedItem={updatedItem}/>}
+      </div>: <div>
+        {newItem && <AddForm dish={dish} newItem={newItem} />}
+      </div>}
+    </div>
   );
 }

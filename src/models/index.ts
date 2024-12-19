@@ -10,6 +10,7 @@ export interface DishIngredient {
   id: number;
   dish_id: number;
   ingredient_id: number;
+  ingredient_amount: number;
 }
 
 export interface Ingredient {
